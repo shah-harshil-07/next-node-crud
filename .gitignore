@@ -1,4 +1,4 @@
 node_modules
 .gitignore
 .next
-package-lok.json
+package-lock.json
