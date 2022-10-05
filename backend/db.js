@@ -1,5 +1,10 @@
 const { MongoClient } = require('mongodb');
-const client = new MongoClient("mongodb://localhost:27017/");
-const database = client.db("NextExpress");
+require('dotenv').config();
+
+const CONNECTION_URL = process.env.CONNECTION_URL;
+const DATABASE = process.env.DATABASE;
+
+const client = new MongoClient(CONNECTION_URL);
+const database = client.db(DATABASE);
 
 module.exports = database;
