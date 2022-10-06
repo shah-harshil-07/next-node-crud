@@ -49,6 +49,7 @@ const login = () => {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="stylesheet" href="<https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css>"></link>
             </Head>
+
             <div className={styles['body']}>
                 <div className={styles['login-wrap']}>
                     <div className={styles['login-html']}>
@@ -64,14 +65,12 @@ const login = () => {
                                         value={loginData.username}
                                         onChange={e => onHandleChange('username', e.target.value)}
                                     />
-                                    <label
-                                        htmlFor="user"
-                                        style={{ paddingLeft: '20px' }}
-                                        className={styles['label']}
-                                    >
+
+                                    <label htmlFor="user" style={{ paddingLeft: '20px' }} className={styles['label']}>
                                         Username
                                     </label>
                                 </span>
+
                                 <span className='text-danger'>{errors['username']}</span>
                             </div>
 
@@ -90,14 +89,11 @@ const login = () => {
                                         onClick={() => changePasswordType()}
                                     ></i>
 
-                                    <label
-                                        htmlFor="pass"
-                                        style={{ paddingLeft: '20px' }}
-                                        className={styles['label']}
-                                    >
+                                    <label htmlFor="pass" style={{ paddingLeft: '20px' }} className={styles['label']}>
                                         Password
                                     </label>
                                 </span>
+
                                 <span className='text-danger'>{errors['password']}</span>
                             </div>
 
