@@ -2,13 +2,13 @@ import { useState } from 'react';
 import styles from '../styles/Login.module.css';
 import Head from 'next/head';
 
-const login = () => {
+const Login = () => {
     const [loginData, setLoginData] = useState({
-        username: "",
+        email: "",
         password: ""
     });
     const [errors, setErrors] = useState({
-        username: "",
+        email: "",
         password: ""
     });
     const [showPassword, setShowPassword] = useState(false);
@@ -48,60 +48,54 @@ const login = () => {
             <Head>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="stylesheet" href="<https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css>"></link>
+                <title>Login Page</title>
             </Head>
 
-            <div className={styles['body']}>
-                <div className={styles['login-wrap']}>
-                    <div className={styles['login-html']}>
-                        <input id="tab-1" type="radio" name="tab" className={styles['sign-in']} defaultChecked />
-                        <label htmlFor="tab-1" className={styles['tab']}><center>Sign In</center></label>
+            <div translate="no" id={styles['main-body']}>
+                <div className={styles.login}>
+                    <div className={styles.login_title}>
+                        <span>Login to your account</span>
+                    </div>
 
-                        <div className={styles['login-form']}>
-                            <div className={styles['group']}>
-                                <span className={styles['p-float-label']}>
-                                    <input
-                                        className={styles['input']}
-                                        type="text"
-                                        value={loginData.username}
-                                        onChange={e => onHandleChange('username', e.target.value)}
-                                    />
-
-                                    <label htmlFor="user" style={{ paddingLeft: '20px' }} className={styles['label']}>
-                                        Username
-                                    </label>
-                                </span>
-
-                                <span className='text-danger'>{errors['username']}</span>
+                    <div className={styles.login_fields}>
+                        <div className={styles.login_fields__user}>
+                            <div className={styles.icon}>
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/user_icon_copy.png" />
                             </div>
 
-                            <div className={styles['group']} style={{ marginTop: '40px' }}>
-                                <span className={styles['p-float-label']} style={{position: 'relative'}}>
-                                    <input
-                                        className={styles['input']}
-                                        type={`${showPassword ? 'text' : 'password'}`}
-                                        value={loginData.password}
-                                        onChange={e => onHandleChange('password', e.target.value)}
-                                    />
+                            <input
+                                placeholder="Email"
+                                type="text"
+                                value={loginData.email}
+                                onChange={e => onHandleChange('email', e.target.value)}
+                            />
+                        </div>
 
-                                    <i
-                                        class={`bi ${showPassword ? 'bi-eye-fill' : 'bi-eye-slash-fill'}`}
-                                        style={{position: 'absolute', top: '12px', right: '15px', fontSize: '25px'}}
-                                        onClick={() => changePasswordType()}
-                                    ></i>
-
-                                    <label htmlFor="pass" style={{ paddingLeft: '20px' }} className={styles['label']}>
-                                        Password
-                                    </label>
-                                </span>
-
-                                <span className='text-danger'>{errors['password']}</span>
+                        <div className={styles.login_fields__password}>
+                            <div className={styles.icon}>
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
                             </div>
 
-                            <div className={styles['group']}>
-                                <input type="submit" onClick={e => onSubmit(e)} className={styles['button']} value="Sign In" />
-                            </div>
+                            <input
+                                placeholder="Password"
+                                type={showPassword ? 'text' : 'password'}
+                                value={loginData.password}
+                                onChange={e => onHandleChange('password', e.target.value)}
+                            />
 
-                            <div className="hr"></div>
+                            <i
+                                class={`bi ${showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'}`}
+                                id={styles['eye-icon']}
+                                onClick={() => changePasswordType()}
+                            ></i>
+                        </div>
+
+                        <div className={styles.login_fields__submit}>
+                            <input type="submit" value="Log In" onClick={e => onSubmit()} />
+
+                            <div className={styles.forgot}>
+                                <a href="#">Forgotten password?</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,4 +104,4 @@ const login = () => {
     )
 }
 
-export default login;
+export default Login;
