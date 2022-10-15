@@ -1,17 +1,16 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import styles from '../styles/Login.module.css';
+import LoginService from '../pages/api/LoginService';
 import Head from 'next/head';
+import { Toast } from 'primereact/toast';
 
 const Login = () => {
     const [loginData, setLoginData] = useState({
         email: "",
         password: ""
     });
-    const [errors, setErrors] = useState({
-        email: "",
-        password: ""
-    });
     const [showPassword, setShowPassword] = useState(false);
+    const toast = useRef(null);
 
     const changePasswordType = () => {
         setShowPassword(!showPassword);
@@ -19,37 +18,49 @@ const Login = () => {
 
     const onHandleChange = (key, data) => {
         setLoginData({ ...loginData, [key]: data });
-        setErrors({ ...errors, [key]: "" });
     }
 
     const onHandleValidation = () => {
-        let _errors = errors;
         let formIsValid = true;
 
         for (const key in loginData) {
             if (loginData[key].length === 0) {
-                _errors[key] = `${key} feild is required!`;
-                _errors[key] = _errors[key].toUpperCase();
                 formIsValid = false;
             }
         }
 
-        setErrors({ ..._errors });
         return formIsValid;
     }
 
-    const onSubmit = e => {
+    const onSubmit = async e => {
         e.preventDefault();
-        onHandleValidation();
+        try {
+            const response = await LoginService.login(loginData);
+            if (response.meta.status) {
+                toast.current.show({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: response.meta.message,
+                    life: 3000
+                });
+            } else {
+                toast.current.show({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: response.meta.message,
+                    life: 3000
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
         <>
-            <Head>
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="stylesheet" href="<https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css>"></link>
-                <title>Login Page</title>
-            </Head>
+            <Head><title>Login Page</title></Head>
+
+            <Toast ref={toast} />
 
             <div translate="no" id={styles['main-body']}>
                 <div className={styles.login}>
@@ -84,14 +95,19 @@ const Login = () => {
                             />
 
                             <i
-                                class={`bi ${showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'}`}
+                                className={`bi ${showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'}`}
                                 id={styles['eye-icon']}
                                 onClick={() => changePasswordType()}
                             ></i>
                         </div>
 
                         <div className={styles.login_fields__submit}>
-                            <input type="submit" value="Log In" onClick={e => onSubmit()} />
+                            <input
+                                type="submit"
+                                value="Log In"
+                                className={!onHandleValidation() ? 'pe-none opacity-50' : ''}
+                                onClick={e => onSubmit(e)}
+                            />
 
                             <div className={styles.forgot}>
                                 <a href="#">Forgotten password?</a>
