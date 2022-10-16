@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import styles from '../styles/Login.module.css';
 import LoginService from '../pages/api/LoginService';
 import Head from 'next/head';
-import { Toast } from 'primereact/toast';
+import { useToast } from './helpers/ToasterService';
 
 const Login = () => {
     const [loginData, setLoginData] = useState({
@@ -10,7 +10,7 @@ const Login = () => {
         password: ""
     });
     const [showPassword, setShowPassword] = useState(false);
-    const toast = useRef(null);
+    const { showSuccess, showError } = useToast();
 
     const changePasswordType = () => {
         setShowPassword(!showPassword);
@@ -37,19 +37,9 @@ const Login = () => {
         try {
             const response = await LoginService.login(loginData);
             if (response.meta.status) {
-                toast.current.show({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: response.meta.message,
-                    life: 3000
-                });
+                showSuccess(response.meta.message);
             } else {
-                toast.current.show({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: response.meta.message,
-                    life: 3000
-                });
+                showError(response.meta.message);
             }
         } catch (error) {
             console.log(error);
@@ -59,8 +49,6 @@ const Login = () => {
     return (
         <>
             <Head><title>Login Page</title></Head>
-
-            <Toast ref={toast} />
 
             <div translate="no" id={styles['main-body']}>
                 <div className={styles.login}>
