@@ -1,20 +1,17 @@
-const database = require('./db');
-const responseTemplate = require('./responseTemplate');
+const database = require('../db');
+const responseTemplate = require('../helpers/responseTemplate');
+const runValidationProcess = require('../helpers/validations/runValidationProcess');
+const { auth } = require('../helpers/validations/validationParamList');
 
 const controller = {
     login: async (req, res) => {
         const requestData = req.body;
-        let response = responseTemplate;
-        let errorResponse = response.error;
+        let errorResponse = responseTemplate.error;
 
-        if (!requestData.email || requestData.email.length === 0) {
-            errorResponse.meta.message = "email is required.";
-            res.send(errorResponse);
-            return;
-        }
-
-        if (!requestData.password || requestData.password.length === 0) {
-            errorResponse.meta.message = "password is required.";
+        const errorArray = runValidationProcess(requestData, auth.login);
+        if (errorArray.length > 0) {
+            errorResponse.meta.messageCode = "VALIDATION_ERROR";
+            errorResponse.meta.message = errorArray[0];
             res.send(errorResponse);
             return;
         }
@@ -24,7 +21,7 @@ const controller = {
             const user = await collection.findOne({email: requestData.email, password: requestData.password});            
 
             if (user) {
-                let successResponse = response.success;
+                let successResponse = responseTemplate.success;
                 successResponse.data = user;
                 successResponse.meta.message = "User data fetched successfully.";
                 res.send(successResponse);
