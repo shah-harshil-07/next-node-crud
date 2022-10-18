@@ -2,7 +2,8 @@ import { useState } from 'react';
 import styles from '../styles/Login.module.css';
 import LoginService from '../pages/api/LoginService';
 import Head from 'next/head';
-import { useToast } from './helpers/ToasterService';
+import { useToast } from '../helpers/ToasterService';
+import { useRouter } from 'next/router';
 
 const Login = () => {
     const [loginData, setLoginData] = useState({
@@ -11,6 +12,7 @@ const Login = () => {
     });
     const [showPassword, setShowPassword] = useState(false);
     const { showSuccess, showError } = useToast();
+    const router = useRouter();
 
     const changePasswordType = () => {
         setShowPassword(!showPassword);
@@ -38,6 +40,7 @@ const Login = () => {
             const response = await LoginService.login(loginData);
             if (response.meta.status) {
                 showSuccess(response.meta.message);
+                router.push('/employees');
             } else {
                 showError(response.meta.message);
             }
