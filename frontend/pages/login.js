@@ -40,7 +40,7 @@ const Login = () => {
             const response = await LoginService.login(loginData);
             if (response.meta.status) {
                 showSuccess(response.meta.message);
-                router.push('/employees');
+                router.push('/users');
             } else {
                 showError(response.meta.message);
             }

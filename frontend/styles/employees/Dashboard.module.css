@@ -1,3 +1,6 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
+@import url("https://fonts.googleapis.com/css?family=Gudea:400,700");
+
 .body {
 	margin: 0;
 	background: linear-gradient(45deg, #49a09d, #5f2c82);
@@ -18,12 +21,12 @@
 	width: 800px;
 	border-collapse: collapse;
 	overflow: hidden;
-	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .th, .td {
 	padding: 15px;
-	background-color: rgba(255,255,255,0.2);
+	background-color: rgba(255, 255, 255, 0.2);
 	color: #fff;
 }
 
@@ -36,7 +39,7 @@
 }
 
 #tbody .tr:hover{
-    background-color: rgba(255,255,255,0.3);
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 #tbody .td {
@@ -50,6 +53,32 @@
     right: 0;
     top: -9999px;
     bottom: -9999px;
-    background-color: rgba(255,255,255,0.2);
+    background-color: rgba(255, 255, 255, 0.2);
     z-index: -1;
+}
+
+#edit-icon {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	top: 7px;
+	color: #afb1be;
+	font-weight: bolder;
+}
+
+#trash-icon {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	left: 50px;
+	top: 7px;
+	color: #afb1be;
+}
+
+.tr .action-cell:hover {
+	background-color: rgba(255, 255, 255, 1);
+}
+
+#add-btn {
+	float: right;
 }
