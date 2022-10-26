@@ -1,0 +1,163 @@
+.container-contact100 {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-image: url("https://colorlib.com/etc/cf/ContactFrom_v11/images/bg-01.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.wrap-contact100 {
+    max-width: 960px;
+    background: #fff;
+    border-radius: 2px;
+    padding: 66px 115px 59px;
+    position: relative;
+}
+
+.contact100-more {
+    display: block;
+    max-width: 960px;
+    font-family: Raleway-SemiBold;
+    font-size: 20px;
+    color: #fff;
+    line-height: 1.4;
+    text-align: center;
+    padding: 40px 0 10px;
+}
+
+.contact100-form {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.contact100-form-title {
+    display: block;
+    width: 100%;
+    font-family: Raleway-Black;
+    font-size: 30px;
+    color: #333;
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-align: left;
+    padding-bottom: 32px;
+}
+
+.wrap-input100 {
+    width: 100%;
+    position: relative;
+    background-color: transparent;
+    margin-bottom: 35px;
+}
+
+.rs1-wrap-input100 {
+    width: calc((100% - 30px)/2);
+}
+
+.validate-input {
+    position: relative;
+}
+
+.label-input100 {
+    font-family: Raleway-SemiBold;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+    background-color: #fff;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    transition: top 0.25s linear, left 0.25s linear, color 0.25s linear;
+}
+
+.input100 {
+    display: block;
+    width: 100%;
+    border-radius: 2px;
+    font-family: Raleway-SemiBold;
+    font-size: 20px;
+    color: #686868;
+    line-height: 1.2;
+    padding: 0 28px;
+    transition: all .4s;
+    margin-top: 10px;
+}
+
+.input100:focus + .label-input100 {
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    color: blue;
+}
+
+input:not([value=""]) + .label-input100 {
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    color: blue;
+}
+
+input.input100 {
+    height: 43px;
+}
+
+.container-contact100-form-btn {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.wrap-contact100-form-btn {
+    display: block;
+    position: relative;
+    z-index: 1;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.contact100-form-bgbtn {
+    position: absolute;
+    z-index: -1;
+    width: 300%;
+    height: 100%;
+    background: -webkit-linear-gradient(right,#2f91ff,#00c513,#2f91ff,#00c513);
+    top: 0;
+    left: -100%;
+    transition: all 4s;
+}
+
+.contact100-form-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    min-width: 150px;
+    height: 43px;
+    font-family: Raleway-Bold;
+    font-size: 16px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+    background-image: url("https://colorlib.com/etc/cf/ContactFrom_v11/images/bg-01.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.password-field {
+    width: 100%;
+    margin-top: -20px;
+    margin-bottom: 20px;
+}

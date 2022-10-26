@@ -15,6 +15,22 @@ const UserService = {
         } catch (err) {
             console.log(err);
         }
+    },
+    add: async userData => {
+        try {
+            let response = await fetch(`${baseURL}/user/create`, {
+                method: 'POST',
+                mode: 'cors',
+                body: JSON.stringify(userData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            response = await response.json();
+            return response;
+        } catch (err) {
+            
+        }
     }
 }
 
