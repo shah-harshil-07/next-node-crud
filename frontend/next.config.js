@@ -5,7 +5,6 @@ const nextConfig = {
 	env: {
 		baseURL: 'http://127.0.0.1:3001'
 	},
-	swcMinify: true,
 	redirects: async () => {
 		return [
 			{
@@ -14,7 +13,19 @@ const nextConfig = {
 				permanent: true
 			}
 		]
-	}
+	},
+    rewrites: async () => {
+        return [
+            {
+                source: '/users/add',
+                destination: '/users/add-edit-user'
+            },
+            {
+                source: '/users/edit',
+                destination: '/users/add-edit-user'
+            }
+        ]
+    }
 }
 
 module.exports = nextConfig

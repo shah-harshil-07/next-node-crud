@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const database = require('../db');
 const responseTemplate = require('../helpers/responseTemplate');
 const runValidationProcess = require('../helpers/validations/runValidationProcess');
@@ -17,7 +18,8 @@ const UserController = {
             }
         } catch (err) {
             let errorResponse = responseTemplate.error;
-            errorResponse.meta.message = "500 Internal Server Error.";
+            errorResponse.meta.statusCode = "500";
+            errorResponse.meta.message = "Internal Server Error.";
             res.send(errorResponse);
         }
     },
@@ -33,7 +35,7 @@ const UserController = {
             res.send(errorResponse);
             return;
         }
-        
+
         try {
             const collection = database.collection('users');
             const data = await collection.insertOne(requestData);
@@ -43,8 +45,80 @@ const UserController = {
             successResponse.data = data;
             res.send(successResponse);
         } catch (err) {
-            let errorResponse = responseTemplate.error;
-            errorResponse.meta.message = "500 Internal Server Error.";
+            errorResponse.meta.statusCode = "500";
+            errorResponse.meta.message = "Internal Server Error.";
+            res.send(errorResponse);
+        }
+    },
+
+    showUser: async (req, res) => {
+        const id = req.params.id;
+        let errorResponse = responseTemplate.error;
+
+        try {
+            const collection = database.collection('users');
+
+            if (id.length === 24) {
+                const user = await collection.findOne({ _id: ObjectId(id) });
+
+                if (user) {
+                    let successResponse = responseTemplate.success;
+                    successResponse.meta.message = "User found.";
+                    successResponse.data = user;
+                    res.send(successResponse);
+                } else {
+                    errorResponse.meta.message = "User not found."
+                    res.send(errorResponse);
+                }
+            } else {
+                errorResponse.meta.message = "User not found."
+                res.send(errorResponse);
+            }
+        } catch (err) {
+            errorResponse.meta.statusCode = "500";
+            errorResponse.meta.message = "Internal Server Error.";
+            res.send(errorResponse);
+        }
+    },
+
+    updateUser: async (req, res) => {
+        const id = req.params.id;
+        const requestData = req.body;
+        let errorResponse = responseTemplate.error;
+
+        try {
+            const collection = database.collection('users');
+
+            if (id.length === 24) {
+                const user = await collection.findOne({ _id: ObjectId(id) });
+
+                if (user) {
+                    const data = await collection.updateOne(
+                        { _id: ObjectId(id) },
+                        {
+                            $set: {
+                                name: requestData.name,
+                                email: requestData.email,
+                                password: requestData.password
+                            }
+                        }
+                    );
+
+                    let successResponse = responseTemplate.success;
+                    successResponse.meta.message = "User data updated successfully";
+                    successResponse.data = data;
+                    res.send(successResponse);
+                } else {
+                    errorResponse.meta.message = "User not found."
+                    res.send(errorResponse);
+                }
+            } else {
+                errorResponse.meta.message = "User not found."
+                res.send(errorResponse);
+            }
+        } catch (err) {
+            errorResponse.meta.statusCode = "500";
+            errorResponse.meta.message = "Internal Server Error.";
             res.send(errorResponse);
         }
     }

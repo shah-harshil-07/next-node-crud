@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useToast } from '../../helpers/ToasterService';
 import { useRouter } from 'next/router';
 import addEditForm from '../../styles/employees/AddEdit.module.css';
@@ -15,8 +15,28 @@ const addEditUser = () => {
         email: '',
         password: ''
     });
+    const [id, setId] = useState("");
     const { showSuccess, showError } = useToast();
     const router = useRouter();
+
+    useEffect(() => {
+        const _id = router?.query?.id;
+        if (_id) {
+            setId(_id);
+            getUserData(_id);
+        }
+    }, []);
+
+    const getUserData = async id => {
+        const response = await UserService.show(id);
+        if (response.meta.status) {
+            const _userData = response.data;
+            if (_userData?._id) {
+                delete _userData._id;
+            }
+            setUserData({..._userData});
+        }
+    }
 
     const onInputChange = (data, field) => {
         setUserData({...userData, [field]: data});
@@ -67,13 +87,19 @@ const addEditUser = () => {
     const onSubmit = e => {
         e.preventDefault();
         if (onHandleValidation()) {
-            addUserData();
+            addUpdateUserData();
         }
     }
 
-    const addUserData = async () => {
+    const addUpdateUserData = async () => {
         try {
-            const response = await UserService.add(userData);
+            let response = null;
+            if (id) {
+                response = await UserService.update(id, userData);
+            } else {
+                response = await UserService.add(userData);
+            }
+
             if (response.meta.status) {
                 showSuccess(response.meta.message);
                 router.push('/users');
@@ -89,7 +115,7 @@ const addEditUser = () => {
         <div className={addEditForm['container-contact100']}>
             <div className={addEditForm['wrap-contact100']}>
                 <form className={addEditForm['contact100-form']}>
-                    <span className={addEditForm['contact100-form-title']}> Add User </span>
+                    <span className={addEditForm['contact100-form-title']}> {id ? 'UPDATE' : 'ADD'} USER </span>
 
                     <div className={`${addEditForm['wrap-input100']} ${addEditForm['rs1-wrap-input100']} ${addEditForm['alert-validate']}`}>
                         <input
@@ -99,11 +125,7 @@ const addEditUser = () => {
                             type="text"
                         />
                         <span className={addEditForm['label-input100']}>Name</span>
-                        {
-                            errors['name'] && (
-                                <span className='text-danger'>{errors['name']}</span>
-                            )
-                        }
+                        { errors['name'] && (<span className='text-danger'>{errors['name']}</span>) }
                     </div>
 
                     <div className={`${addEditForm['wrap-input100']} ${addEditForm['rs1-wrap-input100']} ${addEditForm['alert-validate']}`}>
@@ -114,11 +136,7 @@ const addEditUser = () => {
                             type="text"
                         />
                         <span className={addEditForm['label-input100']}>Email</span>
-                        {
-                            errors['email'] && (
-                                <span className='text-danger'>{errors['email']}</span>
-                            )
-                        }
+                        { errors['email'] && (<span className='text-danger'>{errors['email']}</span>) }
                     </div>
 
                     <div className={`${addEditForm['wrap-input100']} ${addEditForm['password-field']}`}>
@@ -129,11 +147,7 @@ const addEditUser = () => {
                             type="text"
                         />
                         <span className={addEditForm['label-input100']}>Password</span>
-                        {
-                            errors['password'] && (
-                                <span className='text-danger'>{errors['password']}</span>
-                            )
-                        }
+                        { errors['password'] && (<span className='text-danger'>{errors['password']}</span>) }
                     </div>
 
                     <div className={addEditForm['container-contact100-form-btn']}>

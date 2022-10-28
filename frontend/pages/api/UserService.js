@@ -16,6 +16,7 @@ const UserService = {
             console.log(err);
         }
     },
+
     add: async userData => {
         try {
             let response = await fetch(`${baseURL}/user/create`, {
@@ -29,7 +30,40 @@ const UserService = {
             response = await response.json();
             return response;
         } catch (err) {
-            
+            console.log(err);
+        }
+    },
+
+    show: async userId => {
+        try {
+            let response = await fetch(`${baseURL}/user/show/${userId}`, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            response = await response.json();
+            return response;
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+    update: async (userId, userData) => {
+        try {
+            let response = await fetch(`${baseURL}/user/update/${userId}`, {
+                method: 'PUT',
+                mode: 'cors',
+                body: JSON.stringify(userData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            response = await response.json();
+            return response;
+        } catch (err) {
+            console.log(err);
         }
     }
 }
