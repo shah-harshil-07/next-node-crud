@@ -121,6 +121,38 @@ const UserController = {
             errorResponse.meta.message = "Internal Server Error.";
             res.send(errorResponse);
         }
+    },
+
+    deleteUser: async (req, res) => {
+        const id = req.params.id;
+        let errorResponse = responseTemplate.error;
+
+        try {
+            const collection = database.collection('users');
+
+            if (id.length === 24) {
+                const user = await collection.findOne({ _id: ObjectId(id) });
+
+                if (user) {
+                    const data = await collection.deleteOne({ _id: ObjectId(id) });
+
+                    let successResponse = responseTemplate.success;
+                    successResponse.meta.message = "User data deleted successfully";
+                    successResponse.data = data;
+                    res.send(successResponse);
+                } else {
+                    errorResponse.meta.message = "User not found."
+                    res.send(errorResponse);
+                }
+            } else {
+                errorResponse.meta.message = "User not found."
+                res.send(errorResponse);
+            }
+        } catch (err) {
+            errorResponse.meta.statusCode = "500";
+            errorResponse.meta.message = "Internal Server Error.";
+            res.send(errorResponse);
+        }
     }
 }
 

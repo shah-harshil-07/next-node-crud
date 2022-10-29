@@ -1,11 +1,16 @@
 import dashboard from '../../styles/employees/Dashboard.module.css';
 import UserService from '../api/UserService';
+import DeleteDialog from './delete-dialog';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useToast } from '../../helpers/ToasterService';
 
 const usersList = () => {
     const [userData, setUserData] = useState([]);
+    const [selectedIndex, setSelectedIndex] = useState(null);
+    const [showDeleteDialog, setShowDeleteDialog] = useState(null);
     const router = useRouter();
+    const { showSuccess, showError } = useToast();
 
     useEffect(() => {
         getUserData();
@@ -27,12 +32,54 @@ const usersList = () => {
         if (key === 'add') {
             router.push(url);
         } else {
-            router.push({pathname: url, query: `id=${key}`});
+            router.push({ pathname: url, query: `id=${key}` });
+        }
+    }
+
+    const openDeleteDialog = index => {
+        setSelectedIndex(index);
+        setShowDeleteDialog(true);
+    }
+
+    const closeDeleteDialog = () => {
+        setShowDeleteDialog(false);
+        setSelectedIndex(null);
+    }
+
+    const confirmDeleteUser = () => {
+        deleteUser();
+    }
+
+    const deleteUser = async () => {
+        try {
+            const response = await UserService.delete(userData[selectedIndex]['_id']);
+            if (response.meta.status) {
+                showSuccess(response.meta.message);
+            } else {
+                showError(response.meta.message);
+            }
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setShowDeleteDialog(false);
+            setSelectedIndex(null);
+            getUserData();
         }
     }
 
     return (
         <div className={dashboard.body}>
+
+            {
+                showDeleteDialog && (
+                    <DeleteDialog
+                        userName={userData[selectedIndex]['name']}
+                        closeDeleteDialog={() => closeDeleteDialog()}
+                        confirmDeleteUser={() => confirmDeleteUser()}
+                    />
+                )
+            }
+
             <div className={dashboard.container}>
                 <button id={dashboard['add-btn']} className="btn btn-primary" onClick={() => moveToAddEditPage('add')}>Add User</button>
 
@@ -58,7 +105,13 @@ const usersList = () => {
                                             title="Edit User"
                                             onClick={() => moveToAddEditPage(user._id)}
                                         ></i>
-                                        <i className="bi bi-trash3-fill"  id={dashboard['trash-icon']} title="Delete User"></i>
+
+                                        <i
+                                            className="bi bi-trash3-fill"
+                                            id={dashboard['trash-icon']}
+                                            title="Delete User"
+                                            onClick={() => openDeleteDialog(index)}
+                                        ></i>
                                     </td>
                                 </tr>
                             ))

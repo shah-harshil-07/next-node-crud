@@ -65,6 +65,22 @@ const UserService = {
         } catch (err) {
             console.log(err);
         }
+    },
+
+    delete: async userId => {
+        try {
+            let response = await fetch(`${baseURL}/user/delete/${userId}`, {
+                method: 'DELETE',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            response = await response.json();
+            return response;
+        } catch (err) {
+            console.log(err);
+        }
     }
 }
 
