@@ -7,7 +7,8 @@ const UserService = {
                 method: 'GET',
                 mode: 'cors',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'authorization': `Bearer ${localStorage.getItem('authToken')}`,
                 }
             });
             response = await response.json();
@@ -24,7 +25,8 @@ const UserService = {
                 mode: 'cors',
                 body: JSON.stringify(userData),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'authorization': `Bearer ${localStorage.getItem('authToken')}`,
                 }
             });
             response = await response.json();
@@ -40,7 +42,8 @@ const UserService = {
                 method: 'GET',
                 mode: 'cors',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'authorization': `Bearer ${localStorage.getItem('authToken')}`,
                 }
             });
             response = await response.json();
@@ -57,7 +60,8 @@ const UserService = {
                 mode: 'cors',
                 body: JSON.stringify(userData),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'authorization': `Bearer ${localStorage.getItem('authToken')}`,
                 }
             });
             response = await response.json();
@@ -73,7 +77,8 @@ const UserService = {
                 method: 'DELETE',
                 mode: 'cors',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'authorization': `Bearer ${localStorage.getItem('authToken')}`,
                 }
             });
             response = await response.json();

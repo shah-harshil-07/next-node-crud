@@ -19,8 +19,10 @@ const usersList = () => {
     const getUserData = async () => {
         try {
             const response = await UserService.list();
-            if (response.meta.status) {
+            if (response?.meta?.status) {
                 setUserData(response.data);
+            } else if (response?.result === "no login") {
+                router.push('/');
             }
         } catch (err) {
             console.log(err);
@@ -55,6 +57,8 @@ const usersList = () => {
             const response = await UserService.delete(userData[selectedIndex]['_id']);
             if (response.meta.status) {
                 showSuccess(response.meta.message);
+            } else if (response?.result === "no login") {
+                router.push('/');
             } else {
                 showError(response.meta.message);
             }

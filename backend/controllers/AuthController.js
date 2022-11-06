@@ -2,6 +2,7 @@ const database = require('../db');
 const responseTemplate = require('../helpers/responseTemplate');
 const runValidationProcess = require('../helpers/validations/runValidationProcess');
 const { auth } = require('../helpers/validations/validationParamList');
+const jwt = require('jsonwebtoken');
 
 const controller = {
     login: async (req, res) => {
@@ -24,7 +25,16 @@ const controller = {
                 let successResponse = responseTemplate.success;
                 successResponse.data = user;
                 successResponse.meta.message = "User data fetched successfully.";
-                res.send(successResponse);
+
+                jwt.sign({user}, 'secretkey', { expiresIn: '1000s' }, (err, token) => {
+                    if (err) {
+                        errorResponse.meta.message = "500 Internal Server Error";
+                        res.send(errorResponse);
+                    } else {
+                        successResponse.data.token = token;
+                        res.send(successResponse);
+                    }
+                });
             } else {
                 errorResponse.meta.message = "Invalid credentials.";
                 res.send(errorResponse);

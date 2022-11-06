@@ -103,6 +103,8 @@ const addEditUser = () => {
             if (response.meta.status) {
                 showSuccess(response.meta.message);
                 router.push('/users');
+            } else if (response?.result === "no login")  {
+                router.push('/');
             } else {
                 showError(response.meta.message);
             }

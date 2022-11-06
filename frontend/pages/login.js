@@ -40,6 +40,7 @@ const Login = () => {
             const response = await LoginService.login(loginData);
             if (response.meta.status) {
                 showSuccess(response.meta.message);
+                localStorage.setItem('authToken', response.data.token);
                 router.push('/users');
             } else {
                 showError(response.meta.message);
