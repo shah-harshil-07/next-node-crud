@@ -163,6 +163,10 @@
 	margin: auto;
 }
 
+#main-body .submit-btn {
+	color: #442ad8;
+}
+
 #main-body .login_fields__submit .forgot {
 	float: right;
 	font-size: 10px;
@@ -187,8 +191,11 @@
 }
 
 #main-body .login_fields__submit input:focus {
-	box-shadow: none;
-	outline: none;
+	color: white;
+	background: #DC6180;
+	cursor: pointer;
+	transition-property: background, color;
+	transition-duration: 0.2s;
 }
 
 #main-body .login_fields__submit input:hover {

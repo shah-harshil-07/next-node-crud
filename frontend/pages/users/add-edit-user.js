@@ -3,6 +3,7 @@ import { useToast } from '../../helpers/ToasterService';
 import { useRouter } from 'next/router';
 import addEditForm from '../../styles/employees/AddEdit.module.css';
 import UserService from '../api/UserService';
+import withAuth from '../withAuth';
 
 const addEditUser = () => {
     const [userData, setUserData] = useState({
@@ -170,4 +171,4 @@ const addEditUser = () => {
     );
 }
 
-export default addEditUser;
+export default withAuth(addEditUser);

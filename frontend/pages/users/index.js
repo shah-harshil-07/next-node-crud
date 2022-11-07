@@ -4,6 +4,7 @@ import DeleteDialog from './delete-dialog';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useToast } from '../../helpers/ToasterService';
+import withAuth from '../withAuth';
 
 const usersList = () => {
     const [userData, setUserData] = useState([]);
@@ -127,4 +128,4 @@ const usersList = () => {
     )
 }
 
-export default usersList;
+export default withAuth(usersList);

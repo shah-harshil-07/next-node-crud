@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { router } from "next/router";
 import deleteDialogCSS from '../../styles/employees/DeleteDialog.module.css';
+import withAuth from "../withAuth";
 
 const deleteDialog = ({ userName, closeDeleteDialog, confirmDeleteUser }) => {
+    useEffect(() => {
+        if (!userName) {
+            router.push('/users');
+        }
+    }, []);
+
     return (
         <div id="id01" className={deleteDialogCSS['modal']}>
             <div className={deleteDialogCSS['modal-content']}>
@@ -43,4 +51,4 @@ const deleteDialog = ({ userName, closeDeleteDialog, confirmDeleteUser }) => {
     )
 }
 
-export default deleteDialog;
+export default withAuth(deleteDialog);
