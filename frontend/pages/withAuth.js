@@ -1,20 +1,25 @@
-import { useRouter } from 'next/router';
+import Login from "./login";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const withAuth = WrappedComponent => {
     return props => {
-        if (typeof window !== 'undefined') {
-            const router = useRouter();
-            const accessToken = localStorage.getItem('accessToken');
+        const [userAuthenticated, setUserAuthenticated] = useState(false);
+        const router = useRouter();
 
-            if (!accessToken) {
-                router.push('/');
-                return null;
+        useEffect(() => {
+            if (window) {
+                const authToken = localStorage.getItem('authToken');
+                const _userAuthenticated = authToken ? true : false;
+                setUserAuthenticated(_userAuthenticated);
+
+                if (!_userAuthenticated) {
+                    router.push('/login');
+                }
             }
+        }, []);
 
-            return <WrappedComponent {...props} />
-        }
-
-        return null;
+        return <>{userAuthenticated ? <WrappedComponent {...props} /> : <Login />}</>;
     }
 }
 
